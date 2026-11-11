@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paraísos de Mi Norte | Turismo Consciente en Norte de Santander</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bio: {
+              sand: '#FAF8F5',
+              card: '#F3EFEA',
+              border: '#E5DFD5',
+              dark: '#1D2A22',
+              green: '#2D4A3E',
+              leaf: '#3B6350',
+              accent: '#C86D46',
+              gold: '#D4A373'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .bio-hero-bg {
+      background-image: linear-gradient(to bottom, rgba(29, 42, 34, 0.45), rgba(29, 42, 34, 0.82)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="bg-bio-sand text-bio-dark font-sans antialiased selection:bg-bio-accent selection:text-white">
+
+  <!-- Franja Superior de Asistencia y RNT -->
+  <div class="bg-bio-dark text-[#D8E2DC] text-xs py-2 px-6 border-b border-bio-green/40">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-4">
+        <span>¿Necesitas orientación para tu expedición?</span>
+        <a href="https://wa.me/573203463038" target="_blank" class="text-bio-gold hover:underline flex items-center gap-1 font-medium">
+          <span>WhatsApp Asesoría: +57 320 346 3038</span>
+        </a>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] opacity-80">
+        <span>RNT No. 109432 - Cúcuta, Norte de Santander</span>
+        <span>•</span>
+        <span class="text-white font-medium">🇨🇴 Destino Bioseguro y Sostenible</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar Principal con Logo Oficial Interactivo -->
+  <nav class="sticky top-0 z-40 bg-bio-sand/95 backdrop-blur-md border-b border-bio-border">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Contenedor del Logo: Clic para cambiar foto -->
+      <div class="flex items-center gap-3">
+        <label for="input-subir-logo" title="Haz clic para subir tu imagen de logo desde tu celular o PC" class="cursor-pointer group flex items-center gap-3">
+          <div class="w-14 h-14 rounded-2xl bg-white p-1 shadow-sm border border-bio-border flex items-center justify-center overflow-hidden relative">
+            <img id="img-logo-principal" src="" alt="Logo Paraísos de Mi Norte" class="w-full h-full object-contain hidden">
+            <!-- SVG inicial si aún no se ha subido archivo -->
+            <div id="svg-logo-default" class="w-full h-full flex items-center justify-center">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <circle cx="50" cy="50" r="46" fill="#F4EDE4" stroke="#C86D46" stroke-width="3"/>
+                <path d="M20 70 L40 38 L60 65 L75 48 L90 70 Z" fill="#2D4A3E" />
+                <path d="M35 70 L50 48 L65 70 Z" fill="#3B6350" />
+                <polygon points="50,15 54,28 67,28 56,36 60,49 50,41 40,49 44,36 33,28 46,28" fill="#D4A373" />
+                <rect x="15" y="66" width="70" height="18" rx="4" fill="#C86D46" />
+                <text x="50" y="79" font-family="'Playfair Display', serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PARAÍSOS</text>
+              </svg>
+            </div>
+            <!-- Indicador al pasar mouse -->
+            <div class="absolute inset-0 bg-black/40 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[9px] text-center font-bold">
+              <span>Cambiar</span>
+              <span>Logo</span>
+            </div>
+          </div>
+          <input type="file" id="input-subir-logo" accept="image/*" class="hidden" onchange="cargarLogoDesdeArchivo(event)">
+          
+          <div>
+            <span class="block font-serif text-xl font-bold tracking-tight text-bio-dark leading-none">
+              Paraísos de Mi Norte
+            </span>
+            <span class="text-[11px] font-semibold text-bio-accent uppercase tracking-widest mt-1 block">
+              Explora nuestra tierra
+            </span>
+          </div>
+        </label>
+      </div>
+
+      <!-- Menú de Navegación -->
+      <div class="hidden lg:flex items-center gap-8 text-sm font-medium text-bio-dark/80">
+        <a href="#esencia" class="hover:text-bio-leaf transition-colors">¿Qué es Paraísos?</a>
+        <a href="#lineas" class="hover:text-bio-leaf transition-colors">Rutas & Categorías</a>
+        <a href="#planificador" class="hover:text-bio-leaf transition-colors flex items-center gap-1.5 text-bio-leaf font-semibold">
+          <span class="w-2 h-2 rounded-full bg-bio-accent animate-ping"></span>
+          Planificador IA
+        </a>
+        <a href="#galeria" class="hover:text-bio-leaf transition-colors">Galería</a>
+        <a href="#catalogo" class="hover:text-bio-leaf transition-colors">15 Paraísos</a>
+        <a href="#contacto" class="hover:text-bio-leaf transition-colors">Contacto</a>
+      </div>
+
+      <!-- Botón de Acción -->
+      <div class="flex items-center gap-3">
+        <label for="input-subir-logo" class="cursor-pointer hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-bio-border text-[11px] font-medium text-bio-dark hover:border-bio-green transition-all bg-white shadow-sm">
+          <span>📷 Cambiar Logo</span>
+        </label>
+        <a href="#planificador" class="bg-bio-green hover:bg-bio-leaf text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+          <span>Consultar IA</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Principal -->
+  <section id="inicio" class="relative bio-hero-bg text-white min-h-[85vh] flex items-center">
+    <div class="max-w-7xl mx-auto px-6 py-20 relative z-10">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-medium tracking-wider uppercase mb-6 text-[#E2ECE6]">
+          <span>Plataforma de Turismo Regional y Sostenible</span>
+          <span>•</span>
+          <span class="text-bio-gold">Norte de Santander</span>
+        </div>
+        
+        <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.08] tracking-tight mb-6">
+          Viaja con propósito. <br>
+          <span class="italic font-normal text-bio-gold">Regenera el territorio.</span>
+        </h1>
+        
+        <p class="text-base sm:text-xl text-white/90 font-light leading-relaxed mb-10 max-w-2xl">
+          Conectamos viajeros conscientes con los santuarios naturales, patrimonios históricos, sabores ancestrales y cumbres de Norte de Santander a través de expediciones diseñadas con Inteligencia Artificial.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="#planificador" class="bg-bio-accent hover:bg-[#B35933] text-white px-8 py-3.5 rounded-full font-medium text-sm transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
+            <span>Iniciar Planificador Inteligente</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </a>
+          <a href="#catalogo" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-7 py-3.5 rounded-full font-medium text-sm transition-all">
+            Explorar los 15 Paraísos
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 1: Nuestra Esencia -->
+  <section id="esencia" class="py-24 px-6 border-b border-bio-border bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mb-16">
+        <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Nuestra esencia</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-bio-dark leading-tight">
+          ¿Qué es Paraísos de Mi Norte?
+        </h2>
+        <p class="mt-4 text-bio-dark/70 text-base sm:text-lg leading-relaxed">
+          Es una iniciativa de Marca Región concebida para revalorizar la riqueza biocultural de Norte de Santander. Integramos tecnología de punta con respeto comunitario para que cada experiencia sea consciente, segura y transformadora.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-8 rounded-3xl bg-bio-sand border border-bio-border hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-bio-green/10 text-bio-green flex items-center justify-center font-serif text-2xl font-bold mb-6">01</div>
+          <h3 class="font-serif text-xl font-bold text-bio-dark mb-3">Biodiversidad y Cuencas</h3>
+          <p class="text-sm text-bio-dark/70 leading-relaxed">
+            Desde los páramos vírgenes de Santurbán y las nieblas de Sisavita hasta los cañones de Los Estoraques. Fomentamos rutas que respetan y restauran los ecosistemas andinos.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-bio-sand border border-bio-border hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-bio-accent/10 text-bio-accent flex items-center justify-center font-serif text-2xl font-bold mb-6">02</div>
+          <h3 class="font-serif text-xl font-bold text-bio-dark mb-3">Identidad y Raíces</h3>
+          <p class="text-sm text-bio-dark/70 leading-relaxed">
+            Reconectamos con la cuna de la República en Villa del Rosario, el espíritu colonial de Pamplona y las historias de la Gran Convención de Ocaña junto a guardianes locales.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-bio-sand border border-bio-border hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 rounded-2xl bg-bio-gold/20 text-[#8C5D2D] flex items-center justify-center font-serif text-2xl font-bold mb-6">03</div>
+          <h3 class="font-serif text-xl font-bold text-bio-dark mb-3">Desarrollo Comunitario</h3>
+          <p class="text-sm text-bio-dark/70 leading-relaxed">
+            Cada visita beneficia de manera directa y transparente a familias campesinas, productores de café de origen, panaderías centenarias y guías locales certificados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 2: ¿Para quién es? -->
+  <section class="py-24 px-6 bg-bio-sand border-b border-bio-border">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Diseñado para ti</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-bio-dark">¿Para quién es esta plataforma?</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-3xl border border-bio-border flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-bio-leaf tracking-wider uppercase">01 / Exploradores</span>
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mt-3 mb-4">Viajeros y Familias</h3>
+            <p class="text-sm text-bio-dark/70 leading-relaxed mb-6">
+              Para quienes buscan salir de la rutina, respirar aire puro en Cácota o Bochalema, saborear dulces andinos y disfrutar manantiales termales con logística clara y confiable.
+            </p>
+          </div>
+          <a href="#catalogo" class="text-xs font-bold uppercase tracking-wider text-bio-accent hover:underline flex items-center gap-1">Ver destinos familiares →</a>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl border border-bio-border flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-bio-leaf tracking-wider uppercase">02 / Adrenalina</span>
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mt-3 mb-4">Aventureros & Deportistas</h3>
+            <p class="text-sm text-bio-dark/70 leading-relaxed mb-6">
+              Vuelos en parapente sobre Chinácota, circuitos de MTB en cañones secos y torrentismo en las cascadas de Salazar de las Palmas con retos de alto nivel.
+            </p>
+          </div>
+          <a href="#lineas" class="text-xs font-bold uppercase tracking-wider text-bio-accent hover:underline flex items-center gap-1">Ver rutas de aventura →</a>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl border border-bio-border flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-bio-leaf tracking-wider uppercase">03 / Cultura</span>
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mt-3 mb-4">Investigadores y Grupos</h3>
+            <p class="text-sm text-bio-dark/70 leading-relaxed mb-6">
+              Rutas académicas, avistamiento de aves endémicas y expediciones a templos coloniales para aprender de memoria histórica y conservación ambiental con la IA.
+            </p>
+          </div>
+          <a href="#planificador" class="text-xs font-bold uppercase tracking-wider text-bio-accent hover:underline flex items-center gap-1">Consultar itinerarios →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 3: Nuestras 4 Líneas de Experiencias -->
+  <section id="lineas" class="py-24 px-6 bg-white border-b border-bio-border">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mb-16">
+        <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Nuestras líneas de acción</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-bio-dark">Experiencias que transforman</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="group relative rounded-3xl overflow-hidden border border-bio-border bg-bio-sand p-6 flex flex-col justify-between min-h-[340px] hover:border-bio-green transition-all">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-bio-green text-white flex items-center justify-center mb-6">🌿</div>
+            <h3 class="font-serif text-xl font-bold text-bio-dark mb-2">Turismo Ecológico</h3>
+            <p class="text-xs text-bio-dark/70 leading-relaxed mb-4">Frailejones de Santurbán, cascadas de Sisavita, Pozo Azul y Estoraques protegidos.</p>
+          </div>
+          <button onclick="seleccionarCategoria('Turismo Ecológico')" class="text-xs font-bold uppercase tracking-wider text-bio-green group-hover:text-bio-accent flex items-center gap-1">
+            Analizar con IA →
+          </button>
+        </div>
+
+        <div class="group relative rounded-3xl overflow-hidden border border-bio-border bg-bio-sand p-6 flex flex-col justify-between min-h-[340px] hover:border-bio-green transition-all">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-bio-accent text-white flex items-center justify-center mb-6">☕</div>
+            <h3 class="font-serif text-xl font-bold text-bio-dark mb-2">Rutas Gastronómicas</h3>
+            <p class="text-xs text-bio-dark/70 leading-relaxed mb-4">Catas de café en Chinácota, pasteles de garbanzo en El Malecón y dulcería andina en Pamplona.</p>
+          </div>
+          <button onclick="seleccionarCategoria('Gastronómico')" class="text-xs font-bold uppercase tracking-wider text-bio-green group-hover:text-bio-accent flex items-center gap-1">
+            Analizar con IA →
+          </button>
+        </div>
+
+        <div class="group relative rounded-3xl overflow-hidden border border-bio-border bg-bio-sand p-6 flex flex-col justify-between min-h-[340px] hover:border-bio-green transition-all">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-bio-gold text-white flex items-center justify-center mb-6">🏛️</div>
+            <h3 class="font-serif text-xl font-bold text-bio-dark mb-2">Patrimonio Histórico</h3>
+            <p class="text-xs text-bio-dark/70 leading-relaxed mb-4">Cuna de la Gran Colombia en Villa del Rosario, claustros de Ocaña y museos coloniales.</p>
+          </div>
+          <button onclick="seleccionarCategoria('Histórico')" class="text-xs font-bold uppercase tracking-wider text-bio-green group-hover:text-bio-accent flex items-center gap-1">
+            Analizar con IA →
+          </button>
+        </div>
+
+        <div class="group relative rounded-3xl overflow-hidden border border-bio-border bg-bio-sand p-6 flex flex-col justify-between min-h-[340px] hover:border-bio-green transition-all">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-bio-dark text-white flex items-center justify-center mb-6">🧗</div>
+            <h3 class="font-serif text-xl font-bold text-bio-dark mb-2">Aventura o Deportivo</h3>
+            <p class="text-xs text-bio-dark/70 leading-relaxed mb-4">Parapente en cerro de las Cruces, ciclomontañismo en cañones y rapel en cascadas de Salazar.</p>
+          </div>
+          <button onclick="seleccionarCategoria('Aventura o Deportivo')" class="text-xs font-bold uppercase tracking-wider text-bio-green group-hover:text-bio-accent flex items-center gap-1">
+            Analizar con IA →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 4: Planificador Inteligente con IA (Cuestionario) -->
+  <section id="planificador" class="py-24 px-6 bg-bio-sand border-b border-bio-border scroll-mt-20">
+    <div class="max-w-4xl mx-auto">
+      
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Motor de Recomendación Inteligente</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-bio-dark mb-4">
+          Descubre tu Paraíso a la Medida
+        </h2>
+        <p class="text-bio-dark/70 text-sm sm:text-base max-w-xl mx-auto">
+          Responde 6 preguntas esenciales y nuestra IA analizará las 15 rutas de Norte de Santander para entregarte un plan personalizado en segundos.
+        </p>
+      </div>
+
+      <!-- Contenedor del Cuestionario -->
+      <div class="bg-white rounded-3xl p-8 sm:p-12 border border-bio-border shadow-sm">
+        
+        <div class="mb-8">
+          <div class="flex justify-between text-xs font-semibold text-bio-dark/60 mb-2">
+            <span id="step-counter">Pregunta 1 de 6</span>
+            <span id="category-badge" class="text-bio-accent font-bold">Turismo Ecológico</span>
+          </div>
+          <div class="w-full h-1.5 bg-bio-sand rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-bio-green transition-all duration-300 w-1/6"></div>
+          </div>
+        </div>
+
+        <form id="ia-form" onsubmit="event.preventDefault();">
+          
+          <div class="step-pane" id="step-1">
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mb-2">1. ¿Qué tipo de experiencia buscas vivir?</h3>
+            <p class="text-xs text-bio-dark/60 mb-6">Selecciona la línea principal de tu recorrido:</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="categoria" value="Turismo Ecológico" checked class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Turismo Ecológico</span>
+                  <span class="text-xs text-bio-dark/60">Páramos, cascadas, bosques y reservas</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="categoria" value="Gastronómico" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Gastronómico</span>
+                  <span class="text-xs text-bio-dark/60">Cafés especiales, asados y dulces andinos</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="categoria" value="Histórico" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Histórico</span>
+                  <span class="text-xs text-bio-dark/60">Gran Colombia, templos y museos coloniales</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="categoria" value="Aventura o Deportivo" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Aventura o Deportivo</span>
+                  <span class="text-xs text-bio-dark/60">Parapente, rapel en cascadas y MTB</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="step-pane hidden" id="step-2">
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mb-2">2. ¿Qué nivel de esfuerzo físico prefieres?</h3>
+            <p class="text-xs text-bio-dark/60 mb-6">Adaptamos el sendero o trayecto a tus condiciones:</p>
+            <div class="space-y-3">
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="exigencia_fisica" value="Baja (Caminata suave, descanso y contemplación)" checked class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Baja (Caminata suave y contemplación)</span>
+                  <span class="text-xs text-bio-dark/60">Ideal para todas las edades, sin desniveles pronunciados.</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="exigencia_fisica" value="Media (Senderismo de 1 a 3 horas a ritmo moderado)" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Media (Senderismo moderado 1 a 3 horas)</span>
+                  <span class="text-xs text-bio-dark/60">Terreno natural con pendientes moderadas y cruce de quebradas.</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="exigencia_fisica" value="Alta (Trekking exigente, montaña o reto físico)" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Alta (Trekking exigente o reto deportivo)</span>
+                  <span class="text-xs text-bio-dark/60">Alta montaña sobre 3.000 msnm o descensos técnicos por cuerdas.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="step-pane hidden" id="step-3">
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mb-2">3. ¿En qué clima disfrutas más?</h3>
+            <p class="text-xs text-bio-dark/60 mb-6">Nuestra geografía tiene todos los pisos térmicos:</p>
+            <div class="space-y-3">
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="clima_altitud" value="Frío o de páramo (Neblina, abrigo y paisajes de altura)" checked class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Frío o Páramo (10°C a 16°C)</span>
+                  <span class="text-xs text-bio-dark/60">Neblina, frailejones, lagunas y arquitectura colonial andina.</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="clima_altitud" value="Templado de montaña (Fresco y primaveral)" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Templado de montaña (18°C a 24°C)</span>
+                  <span class="text-xs text-bio-dark/60">Brisa fresca, cafetales, cascadas templadas y valles verdes.</span>
+                </div>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="clima_altitud" value="Cálido (Ríos, pozos naturales y sol)" class="text-bio-green focus:ring-bio-green">
+                <div>
+                  <span class="font-semibold text-sm block">Cálido y Soleado (26°C a 32°C)</span>
+                  <span class="text-xs text-bio-dark/60">Pozos naturales, ríos cristalinos y paseos gastronómicos al aire libre.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="step-pane hidden" id="step-4">
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mb-2">4. ¿Con quién viajas?</h3>
+            <p class="text-xs text-bio-dark/60 mb-6">Para asegurar la accesibilidad y comodidades del grupo:</p>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="publico_ideal" value="En pareja" checked class="text-bio-green focus:ring-bio-green">
+                <span class="font-semibold text-sm">En Pareja (Plan Romántico/Desconexión)</span>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="publico_ideal" value="En familia con niños o adultos mayores" class="text-bio-green focus:ring-bio-green">
+                <span class="font-semibold text-sm">Familia con Niños o Adultos</span>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="publico_ideal" value="Grupo de amigos" class="text-bio-green focus:ring-bio-green">
+                <span class="font-semibold text-sm">Grupo de Amigos</span>
+              </label>
+              <label class="p-4 rounded-2xl border border-bio-border flex items-center gap-3 cursor-pointer hover:border-bio-green transition-all has-[:checked]:border-bio-green has-[:checked]:bg-bio-green/5">
+                <input type="radio" name="publico_ideal" value="Solo/a" class="text-bio-green focus:ring-bio-green">
+                <span class="font-semibold text-sm">En Solitario (Retiro/Fotografía)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="step-pane hidden" id="step-5">
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mb-2">5. Duración y Presupuesto estimado</h3>
+            <p class="text-xs text-bio-dark/60 mb-6">Ajustamos la logística a tu tiempo y bolsillo:</p>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-bio-dark/70 mb-2">Duración disponible:</label>
+                <select id="duracion_recomendada" class="w-full p-3.5 rounded-2xl border border-bio-border bg-bio-sand text-sm font-medium focus:ring-bio-green focus:border-bio-green">
+                  <option value="Medio día (escapada rápida)">Medio día (escapada de 3 a 5 horas)</option>
+                  <option value="Pasadía completo (salir temprano y volver en la tarde)" selected>Pasadía completo (salida en la mañana y regreso)</option>
+                  <option value="Fin de semana (acampada o cabaña ecológica)">Fin de semana (2 o 3 días con pernoctación)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-bio-dark/70 mb-2">Presupuesto por persona (COP):</label>
+                <select id="presupuesto_estimado" class="w-full p-3.5 rounded-2xl border border-bio-border bg-bio-sand text-sm font-medium focus:ring-bio-green focus:border-bio-green">
+                  <option value="Económico (Menos de $50.000 COP)">Económico (&lt; $50.000 COP)</option>
+                  <option value="Moderado ($50.000 a $150.000 COP)" selected>Moderado ($50.000 - $150.000 COP)</option>
+                  <option value="Premium (Experiencias todo incluido, mayor a $150.000 COP)">Premium (&gt; $150.000 COP)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-pane hidden" id="step-6">
+            <h3 class="font-serif text-2xl font-bold text-bio-dark mb-2">6. Tu toque personal</h3>
+            <p class="text-xs text-bio-dark/60 mb-4">¿Hay algo puntual que te encante o quieras evitar? (Opcional):</p>
+            <textarea id="expectativa_abierta" rows="3" class="w-full p-4 rounded-2xl border border-bio-border bg-bio-sand text-sm focus:ring-bio-green focus:border-bio-green" placeholder="Ej: Me gustaría tomar fotos de neblina, probar café de finca y evitar sitios con música alta..."></textarea>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-bio-border flex items-center justify-between">
+            <button type="button" id="prev-btn" onclick="cambiarPaso(-1)" class="px-5 py-2.5 rounded-full border border-bio-border text-xs font-semibold uppercase tracking-wider text-bio-dark/60 hover:text-bio-dark hover:border-bio-dark transition-all disabled:opacity-30" disabled>
+              ← Anterior
+            </button>
+            <button type="button" id="next-btn" onclick="cambiarPaso(1)" class="bg-bio-green hover:bg-bio-leaf text-white px-7 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all shadow-sm">
+              Siguiente →
+            </button>
+          </div>
+
+        </form>
+
+        <div id="ai-loading" class="hidden text-center py-12">
+          <div class="w-12 h-12 border-4 border-bio-green/20 border-t-bio-green rounded-full animate-spin mx-auto mb-4"></div>
+          <h4 class="font-serif text-xl font-bold text-bio-dark">Analizando rutas con Inteligencia Artificial...</h4>
+          <p class="text-xs text-bio-dark/60 mt-2">Cruzando tus respuestas con los 15 paraísos de Norte de Santander</p>
+        </div>
+
+        <div id="ai-results" class="hidden mt-10 pt-10 border-t border-bio-border">
+          <div class="text-center mb-8">
+            <span class="inline-block px-3 py-1 rounded-full bg-bio-green/10 text-bio-green text-xs font-bold uppercase tracking-wider mb-2">
+              Recomendación Personalizada Lista
+            </span>
+            <h3 class="font-serif text-3xl font-bold text-bio-dark">Tus 3 Paraísos Ideales</h3>
+          </div>
+          <div id="cards-container" class="grid md:grid-cols-3 gap-6"></div>
+          <div class="mt-8 text-center">
+            <button onclick="reiniciarCuestionario()" class="text-xs font-bold uppercase tracking-wider text-bio-accent hover:underline">
+              ← Realizar una nueva consulta
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sección 5: Galería de Experiencias -->
+  <section id="galeria" class="py-24 px-6 bg-white border-b border-bio-border">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mb-14">
+        <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Explora nuestro mundo</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-bio-dark">Galería del Territorio</h2>
+        <p class="text-sm text-bio-dark/70 mt-2">Fotografías auténticas de los ecosistemas, templos y cañones de nuestro departamento.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-bio-card">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Páramo de Santurbán" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+            <span class="text-white text-xs font-medium">Páramo de Santurbán & Lagunas</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-bio-card">
+          <img src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80" alt="Los Estoraques" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+            <span class="text-white text-xs font-medium">Área Natural Única Los Estoraques</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-bio-card">
+          <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80" alt="Templo Histórico Villa del Rosario" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+            <span class="text-white text-xs font-medium">Templo Histórico de la Gran Colombia</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-bio-card">
+          <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80" alt="Pozo Azul Bochalema" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+            <span class="text-white text-xs font-medium">Cascada y Reserva Pozo Azul</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-bio-card">
+          <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=80" alt="Pamplona Colonial" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+            <span class="text-white text-xs font-medium">Arquitectura Colonial de Pamplona</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-bio-card">
+          <img src="https://images.unsplash.com/photo-1544191696-102dbdaeeaa0?auto=format&fit=crop&w=800&q=80" alt="Mirador Cerro de la Cruz" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+            <span class="text-white text-xs font-medium">Miradores Panorámicos y Senderismo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección 6: Catálogo de los 15 Paraísos -->
+  <section id="catalogo" class="py-24 px-6 bg-bio-sand border-b border-bio-border">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Base de Datos Viva</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-bio-dark">Los 15 Paraísos Registrados</h2>
+          <p class="text-sm text-bio-dark/70 mt-1">Conectados en tiempo real con nuestra matriz de Google Sheets.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <button onclick="filtrarCatalogo('Todos')" class="filter-btn px-4 py-2 rounded-full bg-bio-dark text-white">Todos (15)</button>
+          <button onclick="filtrarCatalogo('Turismo Ecológico')" class="filter-btn px-4 py-2 rounded-full bg-white border border-bio-border text-bio-dark hover:border-bio-green">Ecológico</button>
+          <button onclick="filtrarCatalogo('Gastronómico')" class="filter-btn px-4 py-2 rounded-full bg-white border border-bio-border text-bio-dark hover:border-bio-green">Gastronómico</button>
+          <button onclick="filtrarCatalogo('Histórico')" class="filter-btn px-4 py-2 rounded-full bg-white border border-bio-border text-bio-dark hover:border-bio-green">Histórico</button>
+          <button onclick="filtrarCatalogo('Aventura o Deportivo')" class="filter-btn px-4 py-2 rounded-full bg-white border border-bio-border text-bio-dark hover:border-bio-green">Aventura</button>
+        </div>
+      </div>
+
+      <div id="grid-catalogo" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Sección 7: Formulario de Contacto -->
+  <section id="contacto" class="py-24 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <div>
+          <span class="text-xs font-bold text-bio-accent uppercase tracking-widest block mb-2">Conectemos</span>
+          <h2 class="font-serif text-3xl sm:text-5xl font-bold text-bio-dark leading-tight mb-6">
+            Comienza tu viaje consciente por nuestra tierra
+          </h2>
+          <p class="text-bio-dark/70 text-sm sm:text-base leading-relaxed mb-8">
+            ¿Tienes dudas sobre cómo llegar a una reserva, necesitas un guía certificado o representas a un operador comunitario de Norte de Santander? Escríbenos directamente.
+          </p>
+
+          <div class="space-y-4 text-sm">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-bio-sand flex items-center justify-center text-bio-green font-bold">✉</span>
+              <span>contacto@paraisosdeminorte.com</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-bio-sand flex items-center justify-center text-bio-green font-bold">📍</span>
+              <span>Cúcuta & Municipios de Norte de Santander, Colombia</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="bg-bio-sand p-8 rounded-3xl border border-bio-border space-y-4" onsubmit="event.preventDefault(); alert('¡Gracias por comunicarte con Paraísos de Mi Norte! Te responderemos muy pronto.');">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-bio-dark/70 mb-1">Nombre completo</label>
+            <input type="text" required class="w-full p-3.5 rounded-2xl bg-white border border-bio-border text-sm focus:ring-bio-green focus:border-bio-green" placeholder="Tu nombre">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-bio-dark/70 mb-1">Correo electrónico</label>
+            <input type="email" required class="w-full p-3.5 rounded-2xl bg-white border border-bio-border text-sm focus:ring-bio-green focus:border-bio-green" placeholder="correo@ejemplo.com">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-bio-dark/70 mb-1">Mensaje o interés de viaje</label>
+            <textarea rows="3" required class="w-full p-3.5 rounded-2xl bg-white border border-bio-border text-sm focus:ring-bio-green focus:border-bio-green" placeholder="Cuéntanos a qué municipio o ruta deseas viajar..."></textarea>
+          </div>
+          <button type="submit" class="w-full bg-bio-green hover:bg-bio-leaf text-white font-medium text-xs tracking-wider uppercase py-3.5 rounded-2xl transition-all">
+            Enviar mensaje
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Institucional -->
+  <footer class="bg-bio-dark text-white/70 py-16 px-6 text-xs border-t border-bio-green/30">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex items-center gap-3">
+        <div id="footer-logo-preview" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center font-serif text-lg font-bold text-bio-gold overflow-hidden">
+          <span>P</span>
+        </div>
+        <div>
+          <span class="block font-serif text-base font-bold text-white">Paraísos de Mi Norte</span>
+          <span class="text-[10px] text-bio-gold font-semibold uppercase tracking-widest">Explora nuestra tierra</span>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 text-white/80">
+        <a href="#esencia" class="hover:text-white">Sobre Nosotros</a>
+        <a href="#lineas" class="hover:text-white">Rutas</a>
+        <a href="#planificador" class="hover:text-white">Planificador IA</a>
+        <a href="#catalogo" class="hover:text-white">Destinos</a>
+        <a href="#contacto" class="hover:text-white">Contacto</a>
+      </div>
+      <div>
+        <span>© 2026 Paraísos de Mi Norte. Hecho con orgullo en Norte de Santander 🇨🇴</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LÓGICA JAVASCRIPT CON SOPORTE PARA CARGAR IMÁGENES Y LOGO -->
+  <script>
+    // 1. CARGA Y PERSISTENCIA DEL LOGO PERSONALIZADO
+    function cargarLogoDesdeArchivo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Img = e.target.result;
+        aplicarLogoEnPantalla(base64Img);
+        // Guardar en el navegador para que no se pierda al recargar
+        try {
+          localStorage.setItem('paraisos_custom_logo', base64Img);
+        } catch (err) {
+          console.warn("No se pudo guardar en localStorage por tamaño:", err);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function aplicarLogoEnPantalla(src) {
+      const imgPrincipal = document.getElementById('img-logo-principal');
+      const svgDefault = document.getElementById('svg-logo-default');
+      const footerLogo = document.getElementById('footer-logo-preview');
+
+      if (imgPrincipal && svgDefault) {
+        imgPrincipal.src = src;
+        imgPrincipal.classList.remove('hidden');
+        svgDefault.classList.add('hidden');
+      }
+
+      if (footerLogo) {
+        footerLogo.innerHTML = `<img src="${src}" class="w-full h-full object-contain">`;
+      }
+    }
+
+    // Al cargar la página, restaurar logo si ya fue subido previamente
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLogo = localStorage.getItem('paraisos_custom_logo');
+      if (savedLogo) {
+        aplicarLogoEnPantalla(savedLogo);
+      }
+    });
+
+    // 2. CONEXIÓN A GOOGLE SHEETS
+    // Pega aquí entre las comillas el enlace CSV que te dio Google Sheets al publicar:
+    const URL_GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFhQJzsTTRbrSZ8iICdHhhLZsuP0ysVzLaIQPl1P8IKOubk1-XZbF40HfZhhiyqHBevT4lw7bpFoJO/pub?output=csv";
+
+    // Destinos iniciales (sirven de respaldo si no hay internet o mientras pegas el enlace)
+    let DESTINOS = [
+      { id: "ECO-001", nombre: "Pozo Azul (La Donjuana)", cat: "Turismo Ecológico", muni: "Bochalema - A 40 min de Cúcuta", fisica: "Media", clima: "Cálido", presup: "Económico", desc: "Pozos naturales de aguas cristalinas ideales para refrescarse a bajo costo en un cañón seco.", foto: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Pozo+Azul+La+Donjuana+Bochalema" },
+      { id: "ECO-002", nombre: "Laguna del Cacique Cácota", cat: "Turismo Ecológico", muni: "Cácota - A 2h 15m de Cúcuta", fisica: "Media", clima: "Frío", presup: "Moderado", desc: "Laguna sagrada entre bosques de niebla y alfarería tradicional en pueblo patrimonial.", foto: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Laguna+del+Cacique+Cacota" },
+      { id: "ECO-003", nombre: "Páramo de Santurbán", cat: "Turismo Ecológico", muni: "Mutiscua / Silos - A 3h de Cúcuta", fisica: "Alta", clima: "Frío", presup: "Premium", desc: "Trekking de alta montaña sobre 3.400 msnm entre lagunas glaciares y frailejones.", foto: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Mutiscua+Norte+de+Santander" },
+      { id: "ECO-004", nombre: "Parque Regional Sisavita", cat: "Turismo Ecológico", muni: "Cucutilla - A 2h 30m de Cúcuta", fisica: "Alta", clima: "Templado", presup: "Moderado", desc: "Santuario de conservación biológica virgen con cascadas puras y avistamiento de aves.", foto: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Cucutilla+Norte+de+Santander" },
+      { id: "ECO-005", nombre: "Termales del Raizón", cat: "Turismo Ecológico", muni: "Bochalema - A 50 min de Cúcuta", fisica: "Baja", clima: "Templado", presup: "Económico", desc: "Manantiales termales minerales rodeados de vegetación, seguros para familias y niños.", foto: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Termales+del+Raizon+Bochalema" },
+      { id: "ECO-006", nombre: "Los Estoraques", cat: "Turismo Ecológico", muni: "La Playa de Belén - A 4h 30m de Cúcuta", fisica: "Media", clima: "Templado", presup: "Premium", desc: "Columnas milenarias de roca esculpidas por el viento junto a pueblo patrimonio.", foto: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Los+Estoraques+La+Playa+de+Belen" },
+      { id: "GAS-001", nombre: "Ruta del Pastel de Garbanzo", cat: "Gastronómico", muni: "Cúcuta (El Malecón) - Casco Urbano", fisica: "Baja", clima: "Cálido", presup: "Moderado", desc: "Paseo tradicional junto al río Pamplonita degustando pasteles típicos y carnes asadas.", foto: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Malecon+de+Cucuta" },
+      { id: "GAS-002", nombre: "Corredor de Dulces Andinos", cat: "Gastronómico", muni: "Pamplona / Chitagá - A 1h 45m de Cúcuta", fisica: "Baja", clima: "Frío", presup: "Moderado", desc: "Cosecha de duraznos en fincas y panaderías centenarias de colaciones y mantecadas.", foto: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Pamplona+Norte+de+Santander" },
+      { id: "GAS-003", nombre: "Hacienda Cafetera Iscalá", cat: "Gastronómico", muni: "Chinácota - A 55 min de Cúcuta", fisica: "Baja", clima: "Templado", presup: "Premium", desc: "Cata guiada de café especial de montaña y gastronomía campesina en clima primaveral.", foto: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Chinacota+Norte+de+Santander" },
+      { id: "HIS-001", nombre: "Complejo de la Gran Colombia", cat: "Histórico", muni: "Villa del Rosario - A 15 min de Cúcuta", fisica: "Baja", clima: "Cálido", presup: "Económico", desc: "Templo del Congreso de 1821, Casa Natal de Santander y parque colonial arbolado.", foto: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Templo+Historico+Villa+del+Rosario" },
+      { id: "HIS-002", nombre: "Circuito Museos de Pamplona", cat: "Histórico", muni: "Pamplona - A 1h 30m de Cúcuta", fisica: "Baja", clima: "Frío", presup: "Moderado", desc: "Museo Ramírez Villamizar, arquitectura colonial y templos religiosos centenarios.", foto: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Parque+Agueda+Gallardo+Pamplona" },
+      { id: "HIS-003", nombre: "Claustro Gran Convención", cat: "Histórico", muni: "Ocaña - A 4h 45m de Cúcuta", fisica: "Baja", clima: "Templado", presup: "Moderado", desc: "Escenario de la histórica convención de 1828 y santuario del Agua de la Virgen.", foto: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Complejo+Historico+Gran+Convencion+Ocana" },
+      { id: "AVE-001", nombre: "Vuelo en Parapente Cerro Cruces", cat: "Aventura o Deportivo", muni: "Chinácota - A 50 min de Cúcuta", fisica: "Media", clima: "Templado", presup: "Premium", desc: "Adrenalina y sobrevuelo biplaza con vista panorámica de todo el valle montañoso.", foto: "https://images.unsplash.com/photo-1521673461164-de300ebcfb17?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Chinacota+Norte+de+Santander" },
+      { id: "AVE-002", nombre: "Circuito MTB Cañón Aguas Calientes", cat: "Aventura o Deportivo", muni: "Cúcuta Rural - A 20 min del centro", fisica: "Alta", clima: "Cálido", presup: "Económico", desc: "Reto deportivo de alta resistencia y ascensos técnicos en bosque seco tropical.", foto: "https://images.unsplash.com/photo-1544191696-102dbdaeeaa0?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=San+Faustino+Cucuta" },
+      { id: "AVE-003", nombre: "Torrentismo y Espeleología", cat: "Aventura o Deportivo", muni: "Salazar de las Palmas - A 1h 15m", fisica: "Alta", clima: "Templado", presup: "Moderado", desc: "Descenso técnico en rapel sobre cascadas rugientes y pozos profundos en cañones.", foto: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=600&q=80", maps: "https://maps.google.com/?q=Salazar+de+las+Palmas+Norte+de+Santander" }
+    ];
+
+    function renderCatalogo(lista) {
+      const cont = document.getElementById('grid-catalogo');
+      cont.innerHTML = lista.map(d => `
+        <div class="bg-white rounded-3xl overflow-hidden border border-bio-border flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div>
+            <div class="h-44 overflow-hidden relative">
+              <img src="${d.foto}" alt="${d.nombre}" class="w-full h-full object-cover">
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-bio-dark">
+                ${d.cat}
+              </span>
+            </div>
+            <div class="p-6">
+              <span class="text-xs text-bio-accent font-semibold block mb-1">${d.muni}</span>
+              <h4 class="font-serif text-xl font-bold text-bio-dark mb-2">${d.nombre}</h4>
+              <p class="text-xs text-bio-dark/70 leading-relaxed mb-4">${d.desc}</p>
+              <div class="flex flex-wrap gap-2 text-[11px] font-medium text-bio-dark/60">
+                <span class="px-2.5 py-1 rounded-md bg-bio-sand">Esfuerzo: ${d.fisica}</span>
+                <span class="px-2.5 py-1 rounded-md bg-bio-sand">Clima: ${d.clima}</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <a href="${d.maps}" target="_blank" class="w-full inline-block text-center bg-bio-sand hover:bg-bio-green hover:text-white text-bio-dark py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors border border-bio-border">
+              Ver en Google Maps
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filtrarCatalogo(cat) {
+      if (cat === 'Todos') {
+        renderCatalogo(DESTINOS);
+      } else {
+        renderCatalogo(DESTINOS.filter(d => d.cat.toLowerCase() === cat.toLowerCase()));
+      }
+    }
+
+    // Cuestionario IA
+    let pasoActual = 1;
+    const totalPasos = 6;
+
+    function cambiarPaso(dir) {
+      document.getElementById(`step-${pasoActual}`).classList.add('hidden');
+      pasoActual += dir;
+      
+      if (pasoActual > totalPasos) {
+        ejecutarAnalisisIA();
+        return;
+      }
+
+      document.getElementById(`step-${pasoActual}`).classList.remove('hidden');
+      document.getElementById('step-counter').innerText = `Pregunta ${pasoActual} de ${totalPasos}`;
+      document.getElementById('progress-bar').style.width = `${(pasoActual / totalPasos) * 100}%`;
+      document.getElementById('prev-btn').disabled = (pasoActual === 1);
+      document.getElementById('next-btn').innerText = (pasoActual === totalPasos) ? 'Analizar con IA ✨' : 'Siguiente →';
+    }
+
+    function seleccionarCategoria(catNombre) {
+      const radio = document.querySelector(`input[name="categoria"][value="${catNombre}"]`);
+      if (radio) radio.checked = true;
+      document.getElementById('category-badge').innerText = catNombre;
+      window.location.hash = '#planificador';
+    }
+
+    function ejecutarAnalisisIA() {
+      document.getElementById('ia-form').classList.add('hidden');
+      document.getElementById('ai-loading').classList.remove('hidden');
+
+      const categoriaSeleccionada = document.querySelector('input[name="categoria"]:checked').value;
+
+      setTimeout(() => {
+        document.getElementById('ai-loading').classList.add('hidden');
+        document.getElementById('ai-results').classList.remove('hidden');
+
+        const filtrados = DESTINOS.filter(d => d.cat.toLowerCase() === categoriaSeleccionada.toLowerCase()).slice(0, 3);
+        const cont = document.getElementById('cards-container');
+
+        cont.innerHTML = filtrados.map((d, index) => {
+          const matchPorcentaje = 98 - (index * 4);
+          return `
+            <div class="bg-white rounded-3xl p-6 border-2 border-bio-green/20 relative flex flex-col justify-between shadow-sm">
+              <div>
+                <span class="absolute top-4 right-4 px-3 py-1 rounded-full bg-bio-green text-white text-[10px] font-bold uppercase tracking-wider">
+                  ${matchPorcentaje}% Match
+                </span>
+                <span class="text-xs text-bio-accent font-semibold block mb-1">${d.muni}</span>
+                <h4 class="font-serif text-xl font-bold text-bio-dark mb-3">${d.nombre}</h4>
+                <div class="p-3.5 rounded-2xl bg-bio-sand text-xs text-bio-dark/80 leading-relaxed mb-4 border border-bio-border">
+                  <strong>Por qué es ideal:</strong> Este destino cumple con tu preferencia de ${d.cat} en clima ${d.clima}. Ofrece excelente equilibrio entre contemplación, seguridad y senderos demarcados.
+                </div>
+              </div>
+              <a href="${d.maps}" target="_blank" class="w-full text-center bg-bio-green hover:bg-bio-leaf text-white py-3 rounded-2xl text-xs font-semibold uppercase tracking-wider transition-all block">
+                Ver Ubicación en Google Maps
+              </a>
+            </div>
+          `;
+        }).join('');
+      }, 1600);
+    }
+
+    function reiniciarCuestionario() {
+      pasoActual = 1;
+      document.getElementById('ai-results').classList.add('hidden');
+      document.getElementById('ia-form').classList.remove('hidden');
+      document.querySelectorAll('.step-pane').forEach((p, i) => {
+        p.classList.toggle('hidden', i !== 0);
+      });
+      document.getElementById('step-counter').innerText = `Pregunta 1 de ${totalPasos}`;
+      document.getElementById('progress-bar').style.width = '16.6%';
+      document.getElementById('prev-btn').disabled = true;
+      document.getElementById('next-btn').innerText = 'Siguiente →';
+    }
+
+    // Función para descargar en vivo los datos desde Google Sheets
+    async function cargarDesdeGoogleSheets() {
+      if (!URL_GOOGLE_SHEETS_CSV || URL_GOOGLE_SHEETS_CSV.trim() === "") {
+        console.log("Usando destinos locales por defecto. Configura URL_GOOGLE_SHEETS_CSV con tu enlace de Sheets.");
+        renderCatalogo(DESTINOS);
+        return;
+      }
+      try {
+        const respuesta = await fetch(URL_GOOGLE_SHEETS_CSV);
+        const csvTexto = await respuesta.text();
+        Papa.parse(csvTexto, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            if (results.data && results.data.length > 0) {
+              DESTINOS = results.data.map(fila => ({
+                id: fila.id_sitio || "",
+                nombre: fila.nombre || "",
+                cat: fila.categoria_principal || "",
+                muni: fila.municipio_sector || "",
+                fisica: fila.exigencia_fisica || "",
+                clima: fila.clima_altitud || "",
+                presup: fila.presupuesto_estimado || "",
+                publico: fila.publico_ideal || "",
+                duracion: fila.duracion_recomendada || "",
+                desc: fila.perfil_ia_descripcion || "",
+                foto: fila.imagen_url || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80",
+                maps: fila.ubicacion_maps_o_contacto || "https://maps.google.com"
+              }));
+              renderCatalogo(DESTINOS);
+            }
+          }
+        });
+      } catch (err) {
+        console.warn("No se pudo cargar Google Sheets en vivo, usando datos locales:", err);
+        renderCatalogo(DESTINOS);
+      }
+    }
+
+    // Iniciar carga al abrir la página
+    window.addEventListener('DOMContentLoaded', cargarDesdeGoogleSheets);
+  </script>
+</body>
+</html>
