@@ -60,44 +60,36 @@
     </div>
   </div>
 
-  <!-- Navbar Principal con Logo Oficial Interactivo -->
+  <!-- Navbar Principal -->
   <nav class="sticky top-0 z-40 bg-bio-sand/95 backdrop-blur-md border-b border-bio-border">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
-      <!-- Contenedor del Logo: Clic para cambiar foto -->
-      <div class="flex items-center gap-3">
-        <label for="input-subir-logo" title="Haz clic para subir tu imagen de logo desde tu celular o PC" class="cursor-pointer group flex items-center gap-3">
-          <div class="w-14 h-14 rounded-2xl bg-white p-1 shadow-sm border border-bio-border flex items-center justify-center overflow-hidden relative">
-            <img id="img-logo-principal" src="" alt="Logo Paraísos de Mi Norte" class="w-full h-full object-contain hidden">
-            <!-- SVG inicial si aún no se ha subido archivo -->
-            <div id="svg-logo-default" class="w-full h-full flex items-center justify-center">
-              <svg viewBox="0 0 100 100" class="w-full h-full">
-                <circle cx="50" cy="50" r="46" fill="#F4EDE4" stroke="#C86D46" stroke-width="3"/>
-                <path d="M20 70 L40 38 L60 65 L75 48 L90 70 Z" fill="#2D4A3E" />
-                <path d="M35 70 L50 48 L65 70 Z" fill="#3B6350" />
-                <polygon points="50,15 54,28 67,28 56,36 60,49 50,41 40,49 44,36 33,28 46,28" fill="#D4A373" />
-                <rect x="15" y="66" width="70" height="18" rx="4" fill="#C86D46" />
-                <text x="50" y="79" font-family="'Playfair Display', serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PARAÍSOS</text>
-              </svg>
-            </div>
-            <!-- Indicador al pasar mouse -->
-            <div class="absolute inset-0 bg-black/40 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[9px] text-center font-bold">
-              <span>Cambiar</span>
-              <span>Logo</span>
-            </div>
+      <!-- Contenedor del Logo Institucional Fijo -->
+      <a href="#inicio" class="flex items-center gap-3 group">
+        <div class="w-14 h-14 rounded-2xl bg-white p-1 shadow-sm border border-bio-border flex items-center justify-center overflow-hidden">
+          <img id="img-logo-principal" src="" alt="Logo Paraísos de Mi Norte" class="w-full h-full object-contain hidden">
+          <!-- SVG oficial de la marca -->
+          <div id="svg-logo-default" class="w-full h-full flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <circle cx="50" cy="50" r="46" fill="#F4EDE4" stroke="#C86D46" stroke-width="3"/>
+              <path d="M20 70 L40 38 L60 65 L75 48 L90 70 Z" fill="#2D4A3E" />
+              <path d="M35 70 L50 48 L65 70 Z" fill="#3B6350" />
+              <polygon points="50,15 54,28 67,28 56,36 60,49 50,41 40,49 44,36 33,28 46,28" fill="#D4A373" />
+              <rect x="15" y="66" width="70" height="18" rx="4" fill="#C86D46" />
+              <text x="50" y="79" font-family="'Playfair Display', serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PARAÍSOS</text>
+            </svg>
           </div>
-          <input type="file" id="input-subir-logo" accept="image/*" class="hidden" onchange="cargarLogoDesdeArchivo(event)">
-          
-          <div>
-            <span class="block font-serif text-xl font-bold tracking-tight text-bio-dark leading-none">
-              Paraísos de Mi Norte
-            </span>
-            <span class="text-[11px] font-semibold text-bio-accent uppercase tracking-widest mt-1 block">
-              Explora nuestra tierra
-            </span>
-          </div>
-        </label>
-      </div>
+        </div>
+        
+        <div>
+          <span class="block font-serif text-xl font-bold tracking-tight text-bio-dark leading-none group-hover:text-bio-leaf transition-colors">
+            Paraísos de Mi Norte
+          </span>
+          <span class="text-[11px] font-semibold text-bio-accent uppercase tracking-widest mt-1 block">
+            Explora nuestra tierra
+          </span>
+        </div>
+      </a>
 
       <!-- Menú de Navegación -->
       <div class="hidden lg:flex items-center gap-8 text-sm font-medium text-bio-dark/80">
@@ -114,9 +106,6 @@
 
       <!-- Botón de Acción -->
       <div class="flex items-center gap-3">
-        <label for="input-subir-logo" class="cursor-pointer hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-bio-border text-[11px] font-medium text-bio-dark hover:border-bio-green transition-all bg-white shadow-sm">
-          <span>📷 Cambiar Logo</span>
-        </label>
         <a href="#planificador" class="bg-bio-green hover:bg-bio-leaf text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-sm hover:shadow-md flex items-center gap-2">
           <span>Consultar IA</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -659,52 +648,33 @@
 
   <!-- LÓGICA JAVASCRIPT CON SOPORTE PARA CARGAR IMÁGENES Y LOGO -->
   <script>
-    // 1. CARGA Y PERSISTENCIA DEL LOGO PERSONALIZADO
-    function cargarLogoDesdeArchivo(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    // 1. CONFIGURACIÓN DEL LOGO OFICIAL
+    // Si tienes una imagen para el logo, pon aquí su enlace o ruta (ej: "logo.png" o URL).
+    // Si lo dejas vacío "", se mostrará el logo vectorial ilustrado oficial.
+    const LOGO_OFICIAL_URL = "";
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64Img = e.target.result;
-        aplicarLogoEnPantalla(base64Img);
-        // Guardar en el navegador para que no se pierda al recargar
-        try {
-          localStorage.setItem('paraisos_custom_logo', base64Img);
-        } catch (err) {
-          console.warn("No se pudo guardar en localStorage por tamaño:", err);
+    function inicializarLogo() {
+      if (LOGO_OFICIAL_URL && LOGO_OFICIAL_URL.trim() !== "") {
+        const imgPrincipal = document.getElementById('img-logo-principal');
+        const svgDefault = document.getElementById('svg-logo-default');
+        const footerLogo = document.getElementById('footer-logo-preview');
+
+        if (imgPrincipal && svgDefault) {
+          imgPrincipal.src = LOGO_OFICIAL_URL;
+          imgPrincipal.classList.remove('hidden');
+          svgDefault.classList.add('hidden');
         }
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function aplicarLogoEnPantalla(src) {
-      const imgPrincipal = document.getElementById('img-logo-principal');
-      const svgDefault = document.getElementById('svg-logo-default');
-      const footerLogo = document.getElementById('footer-logo-preview');
-
-      if (imgPrincipal && svgDefault) {
-        imgPrincipal.src = src;
-        imgPrincipal.classList.remove('hidden');
-        svgDefault.classList.add('hidden');
-      }
-
-      if (footerLogo) {
-        footerLogo.innerHTML = `<img src="${src}" class="w-full h-full object-contain">`;
+        if (footerLogo) {
+          footerLogo.innerHTML = `<img src="${LOGO_OFICIAL_URL}" class="w-full h-full object-contain">`;
+        }
       }
     }
 
-    // Al cargar la página, restaurar logo si ya fue subido previamente
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedLogo = localStorage.getItem('paraisos_custom_logo');
-      if (savedLogo) {
-        aplicarLogoEnPantalla(savedLogo);
-      }
-    });
+    window.addEventListener('DOMContentLoaded', inicializarLogo);
 
     // 2. CONEXIÓN A GOOGLE SHEETS
     // Pega aquí entre las comillas el enlace CSV que te dio Google Sheets al publicar:
-    const URL_GOOGLE_SHEETS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFhQJzsTTRbrSZ8iICdHhhLZsuP0ysVzLaIQPl1P8IKOubk1-XZbF40HfZhhiyqHBevT4lw7bpFoJO/pub?output=csv";
+    const URL_GOOGLE_SHEETS_CSV = "";
 
     // Destinos iniciales (sirven de respaldo si no hay internet o mientras pegas el enlace)
     let DESTINOS = [
